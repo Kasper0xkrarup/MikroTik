@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Log Viewer From Firewall</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #f2f2f2;
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      overflow-y: scroll;
+      max-height: 80vh;
+      width: 90%;
+      padding: 10px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Log Viewer</h1>
+  <pre id="logContent"></pre>
+
+  <script>
+    // Function to load the log file
+    function loadLogFile() {
+      var logContentElement = document.getElementById("logContent");
+      var logFile = "log.txt";
+
+      // Create a new XMLHttpRequest object
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", logFile, true);
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          logContentElement.textContent = xhr.responseText;
+          logContentElement.scrollTop = logContentElement.scrollHeight; // Scroll to the bottom
+        }
+      };
+      xhr.send();
+    }
+
+    // Call the function to load the log file initially
+    loadLogFile();
+
+    // Set interval to refresh the log file every 5 seconds
+    setInterval(loadLogFile, 5000);
+  </script>
+</body>
+</html>
+
