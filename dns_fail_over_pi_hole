@@ -1,0 +1,11 @@
+:local pidns 10.0.2.3;
+:local googledns 8.8.8.8;
+:if ([ping 10.0.2.3 count=3] = 0) do={
+    :log info "Target IP is down, changing DNS servers"
+    /ip dhcp-server network set dns-server=$googledns 1
+    /ip dhcp-server lease remove [find dynamic=yes]
+} else={
+    :log info "pi-hole DNS $pidns IP is up, using pi-hole DNS server"
+    /ip dhcp-server network set dns-server=$pidns 1
+}
+ 
